@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { User } from '../model/user.model';
+import { Router } from '@angular/router';
+import { ApiService } from '../core/api.service';
 
 @Component({
   selector: 'app-list-user',
@@ -7,9 +10,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ListUserComponent implements OnInit {
 
-  constructor() { }
+  users: User[];
+  constructor(private router: Router, private apiService: ApiService) { }
 
   ngOnInit() {
+    // this.users = [
+    //   new User(12, 'Петро')
+    // ];
+    this.apiService.getUsers()
+      .subscribe(responce => {
+        this.users = responce;
+      });
   }
+  addUser(): void {
+     this.router.navigate(['add-user']);
+  }
+
 
 }
